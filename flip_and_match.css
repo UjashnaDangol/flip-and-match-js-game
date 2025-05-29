@@ -1,0 +1,7 @@
+#imageContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+  grid-gap: 2px; /* space between grid items */
+  max-width: 440px; /* optional, control container width */
+  margin: 0 auto; /* center the container */
+}
