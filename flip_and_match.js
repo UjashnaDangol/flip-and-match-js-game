@@ -62,7 +62,7 @@ shuffledarray.forEach(animal=>{
   cardInner.classList.add("card-inner");
 
   let cardFront = document.createElement("div");
-  cardFront.classList.add("card-front");
+  cardFront.classList.add("card-back");
 
   let img = document.createElement("img");
   img.src = animal.images;
@@ -75,14 +75,20 @@ shuffledarray.forEach(animal=>{
   cardFront.appendChild(img);
 
   let cardBack=document.createElement("div");
-  cardBack.classList.add("card-back");
+  cardBack.classList.add("card-front");
+cardBack.id = animal.id;
+ 
 
-  cardInner.appendChild(cardFront);
+
   cardInner.appendChild(cardBack);
+ cardInner.appendChild(cardFront);
   card.appendChild(cardInner);
   
 
   imageContainer.appendChild(card);
+
+
+
 });
   
 }
@@ -90,7 +96,7 @@ shuffledarray.forEach(animal=>{
 }
 );
 
-
+ let score=1;
 document.getElementById("imageContainer").addEventListener('click',function(e){
 
   let card= e.target.closest(".card");
@@ -99,3 +105,56 @@ document.getElementById("imageContainer").addEventListener('click',function(e){
   }
 });
 
+
+//getting the clicked card id
+
+let firstCard = null;
+let secondCard = null;
+let lockBoard = false;
+
+document.getElementById("imageContainer").addEventListener("click",function(e){
+  const card = e.target.closest(".card");
+
+  if(!card || lockBoard){
+    return;
+  }
+
+  card.classList.add("flipped");
+
+  const clickedImg = card.querySelector("img.animal-img");
+
+  if(!firstCard){
+    firstCard= clickedImg;
+  }
+
+  else{
+    secondCard=clickedImg;
+    lockBoard =true;
+  }
+
+  if(firstCard.id === secondCard.id){
+   
+    document.getElementById("score").innerHTML=`score: ${score++}/${animals.length}` ;
+    resetSelection();
+  }
+
+  else{
+    setTimeout(()=>{
+      firstCard.closest(".card").classList.remove("flipped");
+
+      secondCard.closest(".card").classList.remove("flipped");
+
+
+      resetSelection();
+
+    },500);
+  }
+
+
+
+  function resetSelection(){
+firstCard= null;
+secondCard = null;
+lockBoard = false;
+  }
+});
